@@ -148,7 +148,7 @@ class AnalisisModelosRegresion:
         importancia_df = importancia_df.sort_values(by="Importancia", ascending=False)
 
         plt.figure(figsize=(10, 6))
-        sns.barplot(x="Importancia", y="Predictor", data=importancia_df, palette="viridis")
+        sns.barplot(x="Importancia", y="Predictor", data=importancia_df)
         plt.title(f"Importancia de Predictores - {modelo}")
         plt.show()
         return importancia_df
