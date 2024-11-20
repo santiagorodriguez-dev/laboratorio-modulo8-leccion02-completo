@@ -10,7 +10,7 @@ from sklearn.tree import DecisionTreeRegressor, plot_tree
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 from sklearn.preprocessing import KBinsDiscretizer
-import xgboost as xgb
+import xgboost as xgb # type: ignore
 
 
 class AnalisisModelosRegresion:
@@ -32,9 +32,9 @@ class AnalisisModelosRegresion:
         self.modelos = {
             "regresion": LinearRegression(n_jobs=-1),
             "tree": DecisionTreeRegressor(),
-            "random_forest": RandomForestRegressor(),
+            "random_forest": RandomForestRegressor(bootstrap=True, n_jobs=-1),
             "gradient_boosting": GradientBoostingRegressor(),
-            "xgboost": xgb.XGBRegressor(),
+            "xgboost": xgb.XGBRegressor(n_jobs=-1),
         }
 
         # Almacenamiento de predicciones y mejores modelos
@@ -52,7 +52,7 @@ class AnalisisModelosRegresion:
         estimator = self.modelos[modelo]
 
         if param_grid:
-            grid_search = GridSearchCV(estimator, param_grid, cv=5, scoring="neg_mean_squared_error")
+            grid_search = GridSearchCV(estimator, param_grid, cv=5, scoring="neg_mean_squared_error", n_jobs=-1)
             grid_search.fit(self.X_train, self.y_train)
             self.mejor_modelo[modelo] = grid_search.best_estimator_
         else:
